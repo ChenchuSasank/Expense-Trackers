@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Expense Tracker</h1>
+    <div id="homeSection">
+      <button class="btn btn-primary btn-block mb-3" onclick="showSection('recordDataSection')">Record Data</button>
+      <button class="btn btn-primary btn-block mb-3" onclick="showSection('showDataSection')">Show Data</button>
+      <button class="btn btn-primary btn-block mb-3" onclick="showSection('modifyDataSection')">Modify Data</button>
+    </div>
+
+    <div id="recordDataSection" style="display: none;">
+      <h2>Record Data</h2>
+      <form id="recordForm">
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select class="form-control" id="category" name="category">
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount:</label>
+          <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="information">Information:</label>
+          <input type="text" class="form-control" id="information" name="information">
+        </div>
+        <div class="form-group">
+          <label for="date_input">Date:</label>
+          <input type="date" class="form-control" id="date_input" name="date_input" required>
+        </div>
+        <button type="submit" class="btn btn-primarie">Save Data</button>
+      </form>
+      <button class="btn btn-secondary mt-3" onclick="showSection('homeSection')">Back</button>
+    </div>
+
+    <div id="showDataSection" style="display: none;">
+      <h2>Show Data</h2>
+      <div class="d-flex mb-3">
+        <button class="btn btn-blue flex-fill mr-2" onclick="showCategoryData('Income')">Incomes</button>
+        <button class="btn btn-blue flex-fill ml-2" onclick="showCategoryData('Expense')">Expenses</button>
+      </div>
+      <div id="dataDisplay" class="table-container">
+        <!-- Data will be displayed here -->
+      </div>
+      <button class="btn btn-secondary mt-3" onclick="showSection('homeSection')">Back</button>
+    </div>
+
+    <div id="modifyDataSection" style="display: none;">
+      <h2>Modify Data</h2>
+      <form id="modifyForm">
+        <div class="form-group">
+          <label for="modifyCategory">Category:</label>
+          <select class="form-control" id="modifyCategory" name="modifyCategory">
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="modifyAmount">New Amount:</label>
+          <input type="number" class="form-control" id="modifyAmount" name="modifyAmount" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="modifyInformation">Information:</label>
+          <input type="text" class="form-control" id="modifyInformation" name="modifyInformation" required>
+        </div>
+        <div class="form-group">
+          <label for="modifyDate">Date:</label>
+          <input type="date" class="form-control" id="modifyDate" name="modifyDate" required>
+        </div>
+        <button type="submit" class="btn btn-primarie">Modify Data</button>
+      </form>
+      <button class="btn btn-secondary mt-3" onclick="showSection('homeSection')">Back</button>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
