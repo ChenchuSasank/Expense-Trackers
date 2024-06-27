@@ -1,0 +1,87 @@
+body {
+  background-color: #f0f0f0;
+}
+
+#homeSection {
+    margin-top: 50px;
+}
+
+.container {
+  width: 800px;
+  padding: 20px;
+  background-color: white;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+#recordDataSection, #showDataSection, #modifyDataSection {
+  margin-top: 20px;
+}
+
+.btn.btn-primarie {
+  margin-top: 50px;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+}
+
+.btn.btn-primarie:hover {
+  background-color: green;
+}
+
+.btn.btn-secondary.mt-3 {
+  width: 100%;
+  margin-top: 20px;
+  background-color: #007bff;
+}
+
+.btn.btn-secondary.mt-3:hover {
+  background-color: rgb(245, 49, 0);
+}
+
+.btn-blue {
+  background-color: blue;
+  color: white;
+}
+
+.btn-blue:hover {
+  background-color: rgb(199, 199, 255);
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-fill {
+  flex: 1;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
