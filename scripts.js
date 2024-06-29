@@ -1,4 +1,4 @@
-let expenses = []; // Array to hold the expense records
+let expenses = JSON.parse(localStorage.getItem('expenses')) || []; // Load from localStorage or initialize empty array
 
 function showSection(sectionId) {
   document.getElementById('homeSection').style.display = 'none';
@@ -16,8 +16,11 @@ document.getElementById('recordForm').addEventListener('submit', function(event)
   let amount = document.getElementById('amount').value;
   let information = document.getElementById('information').value;
   let date = document.getElementById('date_input').value;
+  let id = Date.now(); // Generate a unique ID based on the current timestamp
 
-  expenses.push({ category, amount, information, date });
+  expenses.push({ id, category, amount, information, date });
+
+  localStorage.setItem('expenses', JSON.stringify(expenses)); // Save to localStorage
 
   this.reset();
 });
@@ -30,11 +33,19 @@ document.getElementById('modifyForm').addEventListener('submit', function(event)
   let modifyInformation = document.getElementById('modifyInformation').value;
   let modifyDate = document.getElementById('modifyDate').value;
 
-  for (let expense of expenses) {
-    if (expense.category === modifyCategory && expense.information === modifyInformation && expense.date === modifyDate) {
-      expense.amount = modifyAmount;
+  let expenseFound = false;
+  for (let i = 0; i < expenses.length; i++) {
+    if (expenses[i].category === modifyCategory && expenses[i].information === modifyInformation && expenses[i].date === modifyDate) {
+      expenses[i].amount = modifyAmount;
+      expenseFound = true;
       break;
     }
+  }
+
+  if (expenseFound) {
+    localStorage.setItem('expenses', JSON.stringify(expenses)); // Save to localStorage
+  } else {
+    alert('No matching record found to modify.');
   }
 
   this.reset();
@@ -71,7 +82,7 @@ function showCategoryData(category) {
         <td>${expense.amount}</td>
         <td>${expense.information}</td>
         <td>${expense.date}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${category}', ${index})">Delete</button></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense(${expense.id})">Delete</button></td>
       `;
       tbody.appendChild(row);
     });
@@ -88,10 +99,16 @@ function showCategoryData(category) {
   }
 }
 
-function deleteExpense(category, index) {
-  const expenseIndex = expenses.findIndex((expense, idx) => expense.category === category && idx === index);
+function deleteExpense(id) {
+  expenses = expenses.filter(expense => expense.id !== id);
 
-  expenses.splice(expenseIndex, 1);
+  localStorage.setItem('expenses', JSON.stringify(expenses)); // Save to localStorage
 
-  showCategoryData(category);
+  showCategoryData('Income'); // Assuming you want to refresh the Income table
+  showCategoryData('Expense'); // Assuming you want to refresh the Expense table
 }
+
+// Show home section on page load
+document.addEventListener('DOMContentLoaded', () => {
+  showSection('homeSection');
+});
