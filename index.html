@@ -49,6 +49,19 @@
         <button class="btn btn-blue flex-fill mr-2" onclick="showCategoryData('Income')">Incomes</button>
         <button class="btn btn-blue flex-fill ml-2" onclick="showCategoryData('Expense')">Expenses</button>
       </div>
+      <form id="dateFilterForm" class="mb-3">
+        <div class="form-row">
+          <div class="col">
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+          </div>
+          <div class="col">
+            <input type="date" class="form-control" id="endDate" name="endDate" required> <!-- Add this input field -->
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-primary btn-block">Filter by Date</button>
+          </div>
+        </div>
+      </form>
       <div id="dataDisplay" class="table-container">
         <!-- Data will be displayed here -->
       </div>
