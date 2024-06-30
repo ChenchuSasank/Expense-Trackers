@@ -82,7 +82,7 @@ function showCategoryData(category) {
         <td>${expense.amount}</td>
         <td>${expense.information}</td>
         <td>${expense.date}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense(${expense.id})">Delete</button></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${category}', ${index})">Delete</button></td>
       `;
       tbody.appendChild(row);
     });
@@ -99,16 +99,73 @@ function showCategoryData(category) {
   }
 }
 
-function deleteExpense(id) {
-  expenses = expenses.filter(expense => expense.id !== id);
+function deleteExpense(category, index) {
+  const filteredExpenses = expenses.filter(expense => expense.category === category);
+  const expenseToDelete = filteredExpenses[index];
+
+  expenses = expenses.filter(expense => expense.id !== expenseToDelete.id);
 
   localStorage.setItem('expenses', JSON.stringify(expenses)); // Save to localStorage
 
-  showCategoryData('Income'); // Assuming you want to refresh the Income table
-  showCategoryData('Expense'); // Assuming you want to refresh the Expense table
+  showCategoryData(category);
 }
 
-// Show home section on page load
-document.addEventListener('DOMContentLoaded', () => {
-  showSection('homeSection');
+function showFilteredData(category, startDate, endDate) {
+  const dataDisplay = document.getElementById('dataDisplay');
+  dataDisplay.innerHTML = '';
+
+  const filteredExpenses = expenses.filter(expense => 
+    expense.category === category && 
+    new Date(expense.date) >= new Date(startDate) && 
+    new Date(expense.date) <= new Date(endDate)
+  );
+  const totalAmount = filteredExpenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+
+  if (filteredExpenses.length === 0) {
+    dataDisplay.innerHTML = `<p>No ${category.toLowerCase()} recorded for the selected date range.</p>`;
+  } else {
+    const table = document.createElement('table');
+    table.className = 'table table-striped';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+      <tr>
+        <th>Amount</th>
+        <th>Information</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    `;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    filteredExpenses.forEach((expense, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${expense.amount}</td>
+        <td>${expense.information}</td>
+        <td>${expense.date}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteExpense('${category}', ${index})">Delete</button></td>
+      `;
+      tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    const totalRow = document.createElement('tr');
+    totalRow.innerHTML = `
+      <td colspan="3"><strong>Total</strong></td>
+      <td><strong>${totalAmount.toFixed(2)}</strong></td>
+    `;
+    tbody.appendChild(totalRow);
+
+    dataDisplay.appendChild(table);
+  }
+}
+
+document.getElementById('dateFilterForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const category = document.querySelector('.btn-blue.active')?.textContent || 'Income';
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  showFilteredData(category, startDate, endDate);
 });
